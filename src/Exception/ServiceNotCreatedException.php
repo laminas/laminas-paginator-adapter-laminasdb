@@ -17,6 +17,8 @@ use Laminas\Paginator\Adapter\LaminasDb\DbSelect;
 use Laminas\Paginator\Adapter\LaminasDb\DbTableGateway;
 use RuntimeException;
 
+use function sprintf;
+
 final class ServiceNotCreatedException extends RuntimeException implements ExceptionInterface
 {
     public static function forMissingDbSelectDependencies(): self

@@ -10,6 +10,8 @@ namespace Laminas\Paginator\Adapter\LaminasDb;
 
 use Psr\Container\ContainerInterface;
 
+use function count;
+
 final class DbSelectFactory
 {
     public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): DbSelect

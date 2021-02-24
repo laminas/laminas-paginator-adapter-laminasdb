@@ -30,7 +30,7 @@ class ConfigProvider
     public function getPaginatorConfig()
     {
         return [
-            'aliases' => [
+            'aliases'   => [
                 'dbselect'       => DbSelect::class,
                 'dbSelect'       => DbSelect::class,
                 'DbSelect'       => DbSelect::class,

@@ -10,6 +10,8 @@ namespace Laminas\Paginator\Adapter\LaminasDb;
 
 use Psr\Container\ContainerInterface;
 
+use function count;
+
 final class DbTableGatewayFactory
 {
     public function __invoke(
