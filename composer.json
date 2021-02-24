@@ -1,19 +1,23 @@
 {
-    "name": "laminas/laminas-{component}",
+    "name": "laminas/laminas-paginator-adapter-laminasdb",
     "description": "",
     "license": "BSD-3-Clause",
     "keywords": [
-        "laminas"
+        "laminas",
+        "pagination",
+        "db"
     ],
     "support": {
-        "docs": "https://docs.laminas.dev/laminas-{component}/",
-        "issues": "https://github.com/laminas/laminas-{component}/issues",
-        "source": "https://github.com/laminas/laminas-{component}",
-        "rss": "https://github.com/laminas/laminas-{component}/releases.atom",
+        "docs": "https://docs.laminas.dev/laminas-laminas-paginator-adapter-db/",
+        "issues": "https://github.com/laminas/laminas-laminas-paginator-adapter-db/issues",
+        "source": "https://github.com/laminas/laminas-laminas-paginator-adapter-db",
+        "rss": "https://github.com/laminas/laminas-laminas-paginator-adapter-db/releases.atom",
         "forum": "https://discourse.laminas.dev/"
     },
     "require": {
-        "php": "^7.3 || ~8.0.0"
+        "php": "^7.3 || ~8.0.0",
+        "laminas/laminas-db": "^2.12",
+        "laminas/laminas-paginator": "^2.9"
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "~2.1.4",
@@ -21,17 +25,18 @@
     },
     "autoload": {
         "psr-4": {
-            "Laminas\\{component-namespace}\\": "src//"
+            "Laminas\\Paginator\\Adapter\\LaminasDb\\": "src//"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "LaminasTest\\{component-namespace}\\": "test/"
+            "LaminasTest\\Paginator\\Adapter\\LaminasDb\\": "test/"
         }
     },
     "extra": {
         "laminas": {
-            "module": "Laminas\\{component-namespace}"
+            "component": "Laminas\\Paginator\\Adapter\\LaminasDb",
+            "config-provider": "Laminas\\Paginator\\Adapter\\LaminasDb\\ConfigProvider"
         }
     },
     "config": {
