@@ -1,4 +1,4 @@
-# laminas-paginator-adapter-laminasdb
+# Introduction
 
 This library provides two adapters for [laminas/laminas-paginator](https://docs.laminas.dev/lmainas-paginator):
 
