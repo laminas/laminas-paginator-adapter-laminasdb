@@ -1,6 +1,6 @@
 {
     "name": "laminas/laminas-paginator-adapter-laminasdb",
-    "description": "",
+    "description": "laminas-db adapters for laminas-paginator",
     "license": "BSD-3-Clause",
     "keywords": [
         "laminas",
