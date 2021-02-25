@@ -61,7 +61,7 @@ class DbTableGatewayTest extends TestCase
         $this->mockTableGateway = $mockTableGateway;
     }
 
-    public function testGetItems()
+    public function testGetItems(): void
     {
         $this->dbTableGateway = new DbTableGateway($this->mockTableGateway);
 
@@ -75,7 +75,7 @@ class DbTableGatewayTest extends TestCase
         $this->assertEquals([], $items);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->dbTableGateway = new DbTableGateway($this->mockTableGateway);
 
@@ -94,7 +94,7 @@ class DbTableGatewayTest extends TestCase
         $this->assertEquals(10, $count);
     }
 
-    public function testGetItemsWithWhereAndOrder()
+    public function testGetItemsWithWhereAndOrder(): void
     {
         $where                = "foo = bar";
         $order                = "foo";
@@ -110,7 +110,7 @@ class DbTableGatewayTest extends TestCase
         $this->assertEquals([], $items);
     }
 
-    public function testGetItemsWithWhereAndOrderAndGroup()
+    public function testGetItemsWithWhereAndOrderAndGroup(): void
     {
         $where                = "foo = bar";
         $order                = "foo";
@@ -136,7 +136,7 @@ class DbTableGatewayTest extends TestCase
         $this->assertEquals([], $items);
     }
 
-    public function testGetItemsWithWhereAndOrderAndGroupAndHaving()
+    public function testGetItemsWithWhereAndOrderAndGroupAndHaving(): void
     {
         $where                = "foo = bar";
         $order                = "foo";
