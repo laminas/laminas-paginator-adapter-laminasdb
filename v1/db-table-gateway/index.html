@@ -288,92 +288,85 @@ However, the adapter also allows you to provide WHERE, ORDER BY, GROUP BY, and H
 <p>The items returned by the adapter will be based on the <code>Laminas\Db\ResultSet\ResultSetInterface</code> result set prototype you associate with the table gateway.</p>
 <h2 id="creating-an-instance">Creating An Instance</h2>
 <p>The <code>DbTableGateway</code> constructor has the following signature:</p>
-<div class="highlight"><pre><span></span><span class="x">public function __construct(</span>
-<span class="x">    \Laminas\Db\TableGateway\AbstractTableGateway $tableGateway,</span>
-<span class="x">    null|string|array|\Closure|\Laminas\Db\Sql\Where $where = null,</span>
-<span class="x">    null|string|array $order = null,</span>
-<span class="x">    null|string|array $group = null,</span>
-<span class="x">    null|string|array|\Closure|\Laminas\Db\Sql\Having $having = null</span>
-<span class="x">) {</span>
-</pre></div>
-
+<pre class="highlight"><code class="language-php">public function __construct(
+    \Laminas\Db\TableGateway\AbstractTableGateway $tableGateway,
+    null|string|array|\Closure|\Laminas\Db\Sql\Where $where = null,
+    null|string|array $order = null,
+    null|string|array $group = null,
+    null|string|array|\Closure|\Laminas\Db\Sql\Having $having = null
+) {</code></pre>
 <p>The first argument is the <code>AbstractTableGateway</code> class extension representing the table you want to fetch results from.
 The second argument represents the WHERE criteria for filtering results; see the <a href="https://docs.laminas.dev/laminas-db/sql/#where-having">laminas-db Where documentation</a> for details on what is accepted.
 The third argument represents the order in which results should be sorted; see the <a href="https://docs.laminas.dev/laminas-db/sql/#order">laminas-db "order()" documentation</a> for details.
 The fourth argument represents how results should be grouped; see the <a href="https://docs.laminas.dev/laminas-db/sql/#select">laminas-db Select documentation</a> for details.
 The fifth argument represents a HAVING clause, which is generally used when grouping records; see the <a href="https://docs.laminas.dev/laminas-db/sql/#where-having">laminas-db Having documentation</a> for more details.</p>
-<h3>Using the AdapterPluginManager</h3>
+<h3 id="using-the-adapterpluginmanager">Using the AdapterPluginManager</h3>
 <p>By default, when pulling the <code>Laminas\Paginator\AdapterPluginManager</code> from the application DI container, it is aware of the <code>DbTableGateway</code> adapter.
 You can retrieve an instance from the plugin manager via its <code>get()</code> method, passing any constructor arguments you want to provide via an array as the second argument:</p>
-<div class="highlight"><pre><span></span><span class="x">use Laminas\Paginator\AdapterPluginManager;</span>
-<span class="x">use Laminas\Paginator\Adapter\LaminasDb\DbTableGateway;</span>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\AdapterPluginManager;
+use Laminas\Paginator\Adapter\LaminasDb\DbTableGateway;
 
-<span class="x">// $container is the PSR-11 container associated with the application.</span>
-<span class="x">$pluginManager = $container-&gt;get(AdapterPluginManager::class);</span>
+// $container is the PSR-11 container associated with the application.
+$pluginManager = $container-&gt;get(AdapterPluginManager::class);
 
-<span class="x">// $table is the laminas-db TableGateway instance for retrieving items</span>
-<span class="x">$adapter = $pluginManager-&gt;get(DbTableGateway::class, [$table]);</span>
-</pre></div>
-
+// $table is the laminas-db TableGateway instance for retrieving items
+$adapter = $pluginManager-&gt;get(DbTableGateway::class, [$table]);</code></pre>
 <p>All required arguments to the constructor must be passed in the array, and they will be passed in the same order to the constructor.</p>
 <h2 id="counting-total-items">Counting Total Items</h2>
 <p>The <code>DbTableGateway</code> adapter extends the <a href="../db-select/">DbSelect adapter</a>; during instatiation, it retrieves both the base <code>Laminas\Db\Sql\Sql</code> instance and composed <code>Laminas\Db\ResultSet\ResultSetInterface</code> prototype composed in the table gateway, creates a <code>Laminas\Db\Sql\Select</code> instance, and passes all three to the parent constructor.
 The <code>Select</code> instance is thus used as the basis for the count operation as well.</p>
 <p>Because there is no way to provide an alternate <code>Select</code> for counting, you have two options: extend the <code>DbTableGateway</code> adapter and override the <code>count()</code> method, or create your <code>Select</code> instances for fetching items and the count and pass them to the <code>DbSelect</code> constructor instead.</p>
-<h3>Overriding the Count Method</h3>
+<h3 id="overriding-the-count-method">Overriding the Count Method</h3>
 <p>The following example demonstrates extending the <code>DbTableGateway</code> adapter to override the <code>count()</code> method.</p>
-<div class="highlight"><pre><span></span><span class="x">namespace App;</span>
+<pre class="highlight"><code class="language-php">namespace App;
 
-<span class="x">use Laminas\Db\Sql\Select;</span>
-<span class="x">use Laminas\Paginator\Adapter\LaminasDb\DbTableGateway;</span>
+use Laminas\Db\Sql\Select;
+use Laminas\Paginator\Adapter\LaminasDb\DbTableGateway;
 
-<span class="x">class MyDbTableGateway extends DbTableGateway</span>
-<span class="x">{</span>
-<span class="x">    public function count()</span>
-<span class="x">    {</span>
-<span class="x">        if ($this-&gt;rowCount) {</span>
-<span class="x">            return $this-&gt;rowCount;</span>
-<span class="x">        }</span>
+class MyDbTableGateway extends DbTableGateway
+{
+    public function count()
+    {
+        if ($this-&gt;rowCount) {
+            return $this-&gt;rowCount;
+        }
 
-<span class="x">        $select = new Select();</span>
-<span class="x">        $select</span>
-<span class="x">            -&gt;from(&#39;item_counts&#39;)</span>
-<span class="x">            -&gt;columns([&#39;c&#39;=&gt;&#39;post_count&#39;]);</span>
+        $select = new Select();
+        $select
+            -&gt;from('item_counts')
+            -&gt;columns(['c'=&gt;'post_count']);
 
-<span class="x">        $statement = $this-&gt;sql-&gt;prepareStatementForSqlObject($select);</span>
-<span class="x">        $result    = $statement-&gt;execute();</span>
-<span class="x">        $row       = $result-&gt;current();</span>
-<span class="x">        $this-&gt;rowCount = $row[&#39;c&#39;];</span>
+        $statement = $this-&gt;sql-&gt;prepareStatementForSqlObject($select);
+        $result    = $statement-&gt;execute();
+        $row       = $result-&gt;current();
+        $this-&gt;rowCount = $row['c'];
 
-<span class="x">        return $this-&gt;rowCount;</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+        return $this-&gt;rowCount;
+    }
+}
 
-<span class="x">// $tableGateway is the laminas-db TableGateway for retrieving items</span>
-<span class="x">$adapter = new MyDbTableGateway($tableGateway);</span>
-</pre></div>
-
-<h3>Creating Select Statements to Pass to a DbSelect Adapter</h3>
+// $tableGateway is the laminas-db TableGateway for retrieving items
+$adapter = new MyDbTableGateway($tableGateway);</code></pre>
+<h3 id="creating-select-statements-to-pass-to-a-dbselect-adapter">Creating Select Statements to Pass to a DbSelect Adapter</h3>
 <p>The following demonstrates pulling the <code>Sql</code> instance associated with the <code>TableGateway</code> instance, using it to create <code>Select</code> instances for pulling items and generating a count, and then using all of them together to create a <code>DbSelect</code> instance.</p>
-<div class="highlight"><pre><span></span><span class="x">use Laminas\Paginator\Adapter\LaminasDb\DbSelect;</span>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\Adapter\LaminasDb\DbSelect;
 
-<span class="x">// $tableGateway is the laminas-db TableGateway we want to use</span>
-<span class="x">$sql    = $tableGateway-&gt;getSql();</span>
-<span class="x">$select = $sql-&gt;select();</span>
-<span class="x">// Manipulate the $select to retrieve the result set you want.</span>
-<span class="x">// ...</span>
-<span class="x">$count = $sql-&gt;select();</span>
-<span class="x">// Manipulate the $count to generate the item count you want.</span>
-<span class="x">// ...</span>
+// $tableGateway is the laminas-db TableGateway we want to use
+$sql    = $tableGateway-&gt;getSql();
+$select = $sql-&gt;select();
+// Manipulate the $select to retrieve the result set you want.
+// ...
+$count = $sql-&gt;select();
+// Manipulate the $count to generate the item count you want.
+// ...
 
-<span class="x">// Create the adapter</span>
-<span class="x">$adapter = new DbSelect(</span>
-<span class="x">    $select,</span>
-<span class="x">    $sql,</span>
-<span class="x">    $tableGateway-&gt;getResultSetPrototype(),</span>
-<span class="x">    $count</span>
-<span class="x">);</span>
-</pre></div>
+// Create the adapter
+$adapter = new DbSelect(
+    $select,
+    $sql,
+    $tableGateway-&gt;getResultSetPrototype(),
+    $count
+);</code></pre>
 
 
 

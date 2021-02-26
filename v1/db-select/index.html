@@ -292,137 +292,126 @@ If no <code>Select</code> instance was provided for counting results, the adapte
 While this approach requires an extra round-trip to the database, doing so is still many times faster than fetching an entire result set and using <code>count()</code>, especially with large collections of data.</p>
 <h2 id="creating-an-instance">Creating An Instance</h2>
 <p>The <code>DbSelect</code> constructor has the following signature:</p>
-<div class="highlight"><pre><span></span><span class="x">public function __construct(</span>
-<span class="x">    \Laminas\Db\Sql\Select $select,</span>
-<span class="x">    \Laminas\Db\Adapter\AdapterInterface|\Laminas\Db\Sql\Sql $adapterOrSqlObject,</span>
-<span class="x">    ?\Laminas\Db\ResultSet\ResultSetInterface $resultSetPrototype = null,</span>
-<span class="x">    ?\Laminas\Db\Sql\Select $countSelect = null</span>
-<span class="x">)</span>
-</pre></div>
-
+<pre class="highlight"><code class="language-php">public function __construct(
+    \Laminas\Db\Sql\Select $select,
+    \Laminas\Db\Adapter\AdapterInterface|\Laminas\Db\Sql\Sql $adapterOrSqlObject,
+    ?\Laminas\Db\ResultSet\ResultSetInterface $resultSetPrototype = null,
+    ?\Laminas\Db\Sql\Select $countSelect = null
+)</code></pre>
 <p>The first argument is the <code>Select</code> to use when retrieving results to paginate.
 The next argument, <code>$adapterOrSqlObject</code>, provides access to the adapter so it can execute the <code>Select</code> statement against the actual database.
 The third argument is a specific result set type to use on results returned from the <code>Select</code> operation; these allow you to customize the items returned, if desired.
 (See the <a href="https://docs.laminas.dev/laminas-db/result-set/">laminas-db ResultSet documentation for more details</a>.)
 The fourth argument allows you to specify a specific <code>Select</code> instance to use to provide a total count of results.</p>
-<h3>Using the AdapterPluginManager</h3>
+<h3 id="using-the-adapterpluginmanager">Using the AdapterPluginManager</h3>
 <p>By default, when pulling the <code>Laminas\Paginator\AdapterPluginManager</code> from the application DI container, it is aware of the <code>DbSelect</code> adapter.
 You can retrieve an instance from the plugin manager via its <code>get()</code> method, passing any constructor arguments you want to provide via an array as the second argument:</p>
-<div class="highlight"><pre><span></span><span class="x">use Laminas\Paginator\AdapterPluginManager;</span>
-<span class="x">use Laminas\Paginator\Adapter\LaminasDb\DbSelect;</span>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\AdapterPluginManager;
+use Laminas\Paginator\Adapter\LaminasDb\DbSelect;
 
-<span class="x">// $container is the PSR-11 container associated with the application.</span>
-<span class="x">$pluginManager = $container-&gt;get(AdapterPluginManager::class);</span>
+// $container is the PSR-11 container associated with the application.
+$pluginManager = $container-&gt;get(AdapterPluginManager::class);
 
-<span class="x">// $select is the laminas-db Select instance for retrieving items</span>
-<span class="x">// $dbAdapter is the laminas-db adapter you want to use</span>
-<span class="x">$adapter = $pluginManager-&gt;get(DbSelect::class, [</span>
-<span class="x">    $select,</span>
-<span class="x">    $dbAdapter</span>
-<span class="x">]);</span>
-</pre></div>
-
+// $select is the laminas-db Select instance for retrieving items
+// $dbAdapter is the laminas-db adapter you want to use
+$adapter = $pluginManager-&gt;get(DbSelect::class, [
+    $select,
+    $dbAdapter
+]);</code></pre>
 <p>All required arguments to the constructor must be passed in the array, and they will be passed in the same order to the constructor.</p>
 <h2 id="modifying-result-items">Modifying Result Items</h2>
 <p>The default <code>Laminas\Db\ResultSet\ResultSet</code> used when iterating over items returns each item as an associative array.
 If you wish to filter out specific fields, modify the column names, or return something other than an associative array, you will need to provide a different <code>Laminas\Db\ResultSet\ResultSetInterface</code> implementation to the constructor, or extend the adapter and override the <code>getItems()</code> method.</p>
-<h3>Providing an Alternate ResultSet</h3>
+<h3 id="providing-an-alternate-resultset">Providing an Alternate ResultSet</h3>
 <p>You can override the default <code>ResultSet</code> implementation by passing an object implementing <code>Laminas\Db\ResultSet\ResultSetInterface</code> as the third constructor argument to the <code>DbSelect</code> adapter:</p>
-<div class="highlight"><pre><span></span><span class="x">use Laminas\Db\ResultSet\HydratingResultSet;</span>
-<span class="x">use Laminas\Paginator\Adapter\LaminasDb\DbSelect;</span>
-<span class="x">use Laminas\Paginator\Paginator;</span>
+<pre class="highlight"><code class="language-php">use Laminas\Db\ResultSet\HydratingResultSet;
+use Laminas\Paginator\Adapter\LaminasDb\DbSelect;
+use Laminas\Paginator\Paginator;
 
-<span class="x">// $objectPrototype is an instance of our custom entity</span>
-<span class="x">// $hydrator is a custom hydrator for our entity</span>
-<span class="x">// (implementing Laminas\Hydrator\HydratorInterface)</span>
-<span class="x">$resultSet = new HydratingResultSet($hydrator, $objectPrototype);</span>
+// $objectPrototype is an instance of our custom entity
+// $hydrator is a custom hydrator for our entity
+// (implementing Laminas\Hydrator\HydratorInterface)
+$resultSet = new HydratingResultSet($hydrator, $objectPrototype);
 
-<span class="x">// $query is our Select statement</span>
-<span class="x">// $dbAdapter is the laminas-db adapter instance</span>
-<span class="x">$adapter   = new DbSelect($query, $dbAdapter, $resultSet)</span>
-<span class="x">$paginator = new Laminas\Paginator\Paginator($adapter);</span>
-</pre></div>
-
+// $query is our Select statement
+// $dbAdapter is the laminas-db adapter instance
+$adapter   = new DbSelect($query, $dbAdapter, $resultSet)
+$paginator = new Laminas\Paginator\Paginator($adapter);</code></pre>
 <p>Now when we iterate over <code>$paginator</code>, we will get instances of our custom entity instead of associative arrays.</p>
-<h3>Overriding getItems</h3>
+<h3 id="overriding-getitems">Overriding getItems</h3>
 <p>If you want to manipulate the results manually, you can extend the adapter and override the <code>getItems()</code> method directly.
 The following example demonstrates using an <code>array_map()</code> operation on results in order to cast the rows to an object.
 It assumes the class <code>App\Fuzz</code> exists, and defines a static method <code>fromArray()</code> that will allow casting an array to an <code>App\Fuzz</code> instance.</p>
-<div class="highlight"><pre><span></span><span class="x">namespace App;</span>
+<pre class="highlight"><code class="language-php">namespace App;
 
-<span class="x">use Laminas\Paginator\Adapter\LaminasDb\DbSelect;</span>
+use Laminas\Paginator\Adapter\LaminasDb\DbSelect;
 
-<span class="x">class FuzzDbSelect extends DbSelect</span>
-<span class="x">{</span>
-<span class="x">    public function getItems($offset, $itemCountPerPage)</span>
-<span class="x">    {</span>
-<span class="x">        return array_map(</span>
-<span class="x">            function (array $row): Fuzz {</span>
-<span class="x">              return Fuzz::fromArray($row);</span>
-<span class="x">            },</span>
-<span class="x">            parent::getItems($offset, $itemCountPerPage)</span>
-<span class="x">        );</span>
-<span class="x">    }</span>
-<span class="x">}</span>
-</pre></div>
-
+class FuzzDbSelect extends DbSelect
+{
+    public function getItems($offset, $itemCountPerPage)
+    {
+        return array_map(
+            function (array $row): Fuzz {
+              return Fuzz::fromArray($row);
+            },
+            parent::getItems($offset, $itemCountPerPage)
+        );
+    }
+}</code></pre>
 <h2 id="counting-total-items">Counting Total Items</h2>
 <p>The database adapter will try and build the most efficient query that will execute on pretty much any modern database.
 However, depending on your database or even your own schema setup, there might be more efficient ways to get a rowcount.</p>
 <p>There are two approaches for doing this: providing an additional <code>Select</code> instance for retrieving a count to the constructor, or overriding the <code>count()</code> method.</p>
-<h3>Providing a Select for Counting</h3>
+<h3 id="providing-a-select-for-counting">Providing a Select for Counting</h3>
 <p>You can pass an additional <code>Laminas\Db\Sql\Select</code> object as the fourth constructor argument to the <code>DbSelect</code> adapter to implement a custom count query.</p>
 <p>For example, if you keep track of the count of blog posts in a separate table, you could achieve a faster count query with the following setup:</p>
-<div class="highlight"><pre><span></span><span class="x">use Laminas\Db\Sql\Select;</span>
-<span class="x">use Laminas\Paginator\Adapter\LaminasDb\DbSelect;</span>
-<span class="x">use Laminas\Paginator\Paginator;</span>
+<pre class="highlight"><code class="language-php">use Laminas\Db\Sql\Select;
+use Laminas\Paginator\Adapter\LaminasDb\DbSelect;
+use Laminas\Paginator\Paginator;
 
-<span class="x">$countQuery = new Select();</span>
-<span class="x">$countQuery</span>
-<span class="x">    -&gt;from(&#39;item_counts&#39;)</span>
-<span class="x">    -&gt;columns([DbSelect::ROW_COUNT_COLUMN_NAME =&gt; &#39;post_count&#39;]);</span>
+$countQuery = new Select();
+$countQuery
+    -&gt;from('item_counts')
+    -&gt;columns([DbSelect::ROW_COUNT_COLUMN_NAME =&gt; 'post_count']);
 
-<span class="x">// $query is the Select for retrieving items</span>
-<span class="x">// $dbAdapter is the laminas-db adapter</span>
-<span class="x">$adapter   = new DbSelect($query, $dbAdapter, null, $countQuery);</span>
-<span class="x">$paginator = new Paginator($adapter);</span>
-</pre></div>
-
+// $query is the Select for retrieving items
+// $dbAdapter is the laminas-db adapter
+$adapter   = new DbSelect($query, $dbAdapter, null, $countQuery);
+$paginator = new Paginator($adapter);</code></pre>
 <p>This approach will probably not give you a huge performance gain on small collections and/or simple select queries.
 However, with complex queries and large collections, a similar approach could give you a significant performance boost.</p>
-<h3>Overriding the Count Method</h3>
+<h3 id="overriding-the-count-method">Overriding the Count Method</h3>
 <p>The following example demonstrates extending the <code>DbSelect</code> adapter to override the <code>count()</code> method.</p>
-<div class="highlight"><pre><span></span><span class="x">namespace App;</span>
+<pre class="highlight"><code class="language-php">namespace App;
 
-<span class="x">use Laminas\Db\Sql\Select;</span>
-<span class="x">use Laminas\Paginator\Adapter\LaminasDb\DbSelect;</span>
+use Laminas\Db\Sql\Select;
+use Laminas\Paginator\Adapter\LaminasDb\DbSelect;
 
-<span class="x">class MyDbSelect extends DbSelect</span>
-<span class="x">{</span>
-<span class="x">    public function count()</span>
-<span class="x">    {</span>
-<span class="x">        if ($this-&gt;rowCount) {</span>
-<span class="x">            return $this-&gt;rowCount;</span>
-<span class="x">        }</span>
+class MyDbSelect extends DbSelect
+{
+    public function count()
+    {
+        if ($this-&gt;rowCount) {
+            return $this-&gt;rowCount;
+        }
 
-<span class="x">        $select = new Select();</span>
-<span class="x">        $select</span>
-<span class="x">            -&gt;from(&#39;item_counts&#39;)</span>
-<span class="x">            -&gt;columns([&#39;c&#39;=&gt;&#39;post_count&#39;]);</span>
+        $select = new Select();
+        $select
+            -&gt;from('item_counts')
+            -&gt;columns(['c'=&gt;'post_count']);
 
-<span class="x">        $statement = $this-&gt;sql-&gt;prepareStatementForSqlObject($select);</span>
-<span class="x">        $result    = $statement-&gt;execute();</span>
-<span class="x">        $row       = $result-&gt;current();</span>
-<span class="x">        $this-&gt;rowCount = $row[&#39;c&#39;];</span>
+        $statement = $this-&gt;sql-&gt;prepareStatementForSqlObject($select);
+        $result    = $statement-&gt;execute();
+        $row       = $result-&gt;current();
+        $this-&gt;rowCount = $row['c'];
 
-<span class="x">        return $this-&gt;rowCount;</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+        return $this-&gt;rowCount;
+    }
+}
 
-<span class="x">// $query is the Select for retrieving items</span>
-<span class="x">// $dbAdapter is the laminas-db adapter</span>
-<span class="x">$adapter = new MyDbSelect($query, $dbAdapter);</span>
-</pre></div>
+// $query is the Select for retrieving items
+// $dbAdapter is the laminas-db adapter
+$adapter = new MyDbSelect($query, $dbAdapter);</code></pre>
 
 
 
