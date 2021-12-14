@@ -9,7 +9,7 @@ class ConfigProvider
      *
      * @return array
      */
-    public function __invoke()
+    public function __invoke(): array
     {
         return [
             'paginators' => $this->getPaginatorConfig(),
@@ -21,7 +21,7 @@ class ConfigProvider
      *
      * @return array
      */
-    public function getPaginatorConfig()
+    public function getPaginatorConfig(): array
     {
         return [
             'aliases'   => [

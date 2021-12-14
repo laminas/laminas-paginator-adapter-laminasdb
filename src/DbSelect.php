@@ -43,7 +43,7 @@ class DbSelect implements AdapterInterface
     /**
      * Total item count
      *
-     * @var int
+     * @var int|null
      */
     protected $rowCount;
 
@@ -82,7 +82,7 @@ class DbSelect implements AdapterInterface
      * @param  int $itemCountPerPage Number of items per page
      * @return array
      */
-    public function getItems($offset, $itemCountPerPage)
+    public function getItems($offset, $itemCountPerPage): array
     {
         $select = clone $this->select;
         $select->offset($offset);
@@ -103,7 +103,7 @@ class DbSelect implements AdapterInterface
      * @return int
      * @throws MissingRowCountColumnException
      */
-    public function count()
+    public function count(): int
     {
         if ($this->rowCount !== null) {
             return $this->rowCount;
@@ -123,7 +123,7 @@ class DbSelect implements AdapterInterface
      *
      * @return Select
      */
-    protected function getSelectCount()
+    protected function getSelectCount(): Select
     {
         if ($this->countSelect) {
             return $this->countSelect;
@@ -150,7 +150,7 @@ class DbSelect implements AdapterInterface
      * @todo The next major version should rework the entire caching of a paginator.
      * @return array
      */
-    public function getArrayCopy()
+    public function getArrayCopy(): array
     {
         return [
             'select'       => $this->sql->buildSqlString($this->select),
@@ -161,10 +161,11 @@ class DbSelect implements AdapterInterface
     }
 
     /**
+     * @param  array $row
      * @return int
      * @throws MissingRowCountColumnException
      */
-    private function locateRowCount(array $row)
+    private function locateRowCount(array $row): int
     {
         if (array_key_exists(self::ROW_COUNT_COLUMN_NAME, $row)) {
             return (int) $row[self::ROW_COUNT_COLUMN_NAME];
