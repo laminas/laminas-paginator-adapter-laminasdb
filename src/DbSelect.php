@@ -84,7 +84,7 @@ class DbSelect implements AdapterInterface
      * @param  int $itemCountPerPage Number of items per page
      * @return array
      */
-    public function getItems($offset, $itemCountPerPage): array
+    public function getItems($offset, $itemCountPerPage)
     {
         $select = clone $this->select;
         $select->offset($offset);

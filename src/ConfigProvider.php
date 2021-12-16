@@ -23,7 +23,7 @@ class ConfigProvider
      *
      * @return array
      */
-    public function getPaginatorConfig(): array
+    public function getPaginatorConfig()
     {
         return [
             'aliases'   => [
