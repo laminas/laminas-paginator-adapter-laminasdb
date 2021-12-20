@@ -105,7 +105,7 @@ class DbSelect implements AdapterInterface
      * @return int
      * @throws MissingRowCountColumnException
      */
-    public function count(): int
+    public function count()
     {
         if ($this->rowCount !== null) {
             return $this->rowCount;
@@ -125,7 +125,7 @@ class DbSelect implements AdapterInterface
      *
      * @return Select
      */
-    protected function getSelectCount(): Select
+    protected function getSelectCount()
     {
         if ($this->countSelect) {
             return $this->countSelect;
@@ -152,7 +152,7 @@ class DbSelect implements AdapterInterface
      * @todo The next major version should rework the entire caching of a paginator.
      * @return array
      */
-    public function getArrayCopy(): array
+    public function getArrayCopy()
     {
         return [
             'select'       => $this->sql->buildSqlString($this->select),
@@ -163,8 +163,6 @@ class DbSelect implements AdapterInterface
     }
 
     /**
-     * @param  array $row
-     * @return int
      * @throws MissingRowCountColumnException
      */
     private function locateRowCount(array $row): int
