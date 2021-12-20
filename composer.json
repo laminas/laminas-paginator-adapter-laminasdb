@@ -15,14 +15,14 @@
         "forum": "https://discourse.laminas.dev/"
     },
     "require": {
-        "php": "^7.3 || ~8.0.0 || ~8.1.0",
-        "laminas/laminas-db": "^2.12",
-        "laminas/laminas-paginator": "^2.10"
+        "php": "^7.4 || ~8.0.0 || ~8.1.0",
+        "laminas/laminas-db": "^2.13.4",
+        "laminas/laminas-paginator": "^2.12.1"
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "~2.3.0",
-        "phpunit/phpunit": "^9.3",
-        "psalm/plugin-phpunit": "^0.15.1",
+        "phpunit/phpunit": "^9.5.10",
+        "psalm/plugin-phpunit": "^0.15.2",
         "vimeo/psalm": "^4.15"
     },
     "autoload": {

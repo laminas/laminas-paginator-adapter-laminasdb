@@ -23,31 +23,31 @@ class DbSelect implements AdapterInterface
     public const ROW_COUNT_COLUMN_NAME = 'C';
 
     /** @var Sql */
-    protected $sql;
+    protected Sql $sql;
 
     /**
      * Database query
      *
      * @var Select
      */
-    protected $select;
+    protected Select $select;
 
     /**
      * Database count query
      *
      * @var Select|null
      */
-    protected $countSelect;
+    protected ?Select $countSelect = null;
 
-    /** @var ResultSet */
-    protected $resultSetPrototype;
+    /** @var ResultSetInterface */
+    protected ResultSetInterface $resultSetPrototype;
 
     /**
      * Total item count
      *
      * @var int|null
      */
-    protected $rowCount;
+    protected ?int $rowCount = null;
 
     /**
      * @param Select $select The select query
