@@ -14,9 +14,9 @@ class DbTableGateway extends DbSelect
     /**
      * Constructs instance.
      *
-     * @param null|Where|Closure|string|array $where
-     * @param null|string|array                 $order
-     * @param null|string|array                 $group
+     * @param null|Where|Closure|string|array  $where
+     * @param null|string|array                $order
+     * @param null|string|array                $group
      * @param null|Having|Closure|string|array $having
      */
     public function __construct(
