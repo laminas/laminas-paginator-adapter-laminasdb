@@ -42,11 +42,7 @@
         }
     },
     "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": false,
-            "composer/package-versions-deprecated": false
-        }
+        "sort-packages": true
     },
     "scripts": {
         "cs-check": "phpcs",
