@@ -24,10 +24,30 @@ class DbSelect implements AdapterInterface
 
     /** @var Sql */
     protected $sql;
-    protected Select $select;
-    protected ?Select $countSelect = null;
-    protected ResultSetInterface $resultSetPrototype;
-    protected ?int $rowCount = null;
+
+    /**
+     * Database query
+     *
+     * @var Select
+     */
+    protected $select;
+
+    /**
+     * Database count query
+     *
+     * @var Select|null
+     */
+    protected $countSelect;
+
+    /** @var ResultSet */
+    protected $resultSetPrototype;
+
+    /**
+     * Total item count
+     *
+     * @var int
+     */
+    protected $rowCount;
 
     /**
      * @param Select $select The select query
