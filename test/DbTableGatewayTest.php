@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Paginator\Adapter\LaminasDb;
 
 use Laminas\Db\Adapter\Adapter;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Paginator\Adapter\LaminasDb;
 
 use Laminas\Db\Adapter\Adapter;
@@ -37,13 +39,13 @@ class DbSelect implements AdapterInterface
      */
     protected $countSelect;
 
-    /** @var ResultSet */
+    /** @var ResultSetInterface */
     protected $resultSetPrototype;
 
     /**
      * Total item count
      *
-     * @var int
+     * @var int|null
      */
     protected $rowCount;
 
@@ -161,10 +163,9 @@ class DbSelect implements AdapterInterface
     }
 
     /**
-     * @return int
      * @throws MissingRowCountColumnException
      */
-    private function locateRowCount(array $row)
+    private function locateRowCount(array $row): int
     {
         if (array_key_exists(self::ROW_COUNT_COLUMN_NAME, $row)) {
             return (int) $row[self::ROW_COUNT_COLUMN_NAME];
