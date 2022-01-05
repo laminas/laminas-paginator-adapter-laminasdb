@@ -39,13 +39,13 @@ class DbSelect implements AdapterInterface
      */
     protected $countSelect;
 
-    /** @var ResultSet */
+    /** @var ResultSetInterface */
     protected $resultSetPrototype;
 
     /**
      * Total item count
      *
-     * @var int
+     * @var int|null
      */
     protected $rowCount;
 
