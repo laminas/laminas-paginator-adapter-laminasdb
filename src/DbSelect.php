@@ -14,6 +14,8 @@ use Laminas\Paginator\Adapter\AdapterInterface;
 use Laminas\Paginator\Adapter\Exception\MissingRowCountColumnException;
 use Laminas\Paginator\Exception;
 
+use ReturnTypeWillChange;
+
 use function array_key_exists;
 use function iterator_to_array;
 use function strtolower;
@@ -105,6 +107,7 @@ class DbSelect implements AdapterInterface
      * @return int
      * @throws MissingRowCountColumnException
      */
+    #[ReturnTypeWillChange]
     public function count()
     {
         if ($this->rowCount !== null) {
