@@ -13,7 +13,6 @@ use Laminas\Db\Sql\Sql;
 use Laminas\Paginator\Adapter\AdapterInterface;
 use Laminas\Paginator\Adapter\Exception\MissingRowCountColumnException;
 use Laminas\Paginator\Exception;
-
 use ReturnTypeWillChange;
 
 use function array_key_exists;
