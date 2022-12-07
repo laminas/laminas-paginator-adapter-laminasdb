@@ -15,7 +15,7 @@
         "forum": "https://discourse.laminas.dev/"
     },
     "require": {
-        "php": "^7.4 || ~8.0.0 || ~8.1.0",
+        "php": "^7.4 || ~8.0.0 || ~8.1.0 || ~8.2.0",
         "laminas/laminas-db": "^2.13.4",
         "laminas/laminas-paginator": "^2.12.1"
     },
