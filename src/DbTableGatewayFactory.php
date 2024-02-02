@@ -6,7 +6,9 @@ namespace Laminas\Paginator\Adapter\LaminasDb;
 
 use Psr\Container\ContainerInterface;
 
+use function assert;
 use function count;
+use function is_a;
 
 final class DbTableGatewayFactory
 {
@@ -19,6 +21,7 @@ final class DbTableGatewayFactory
             throw Exception\ServiceNotCreatedException::forMissingDbTableGatewayDependencies();
         }
 
+        assert(is_a($requestedName, DbTableGateway::class, true));
         return new $requestedName(
             $options[0],
             $options[1] ?? null,

@@ -1,51 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.26.0@6998fabb2bf528b65777bf9941920888d23c03ac">
+<files psalm-version="5.21.1@8c473e2437be8b6a8fd8f630f0f11a16b114c494">
   <file src="src/DbSelect.php">
-    <MixedArgument occurrences="1">
+    <ImplementedReturnTypeMismatch>
+      <code>array</code>
+    </ImplementedReturnTypeMismatch>
+    <MissingTemplateParam>
+      <code>AdapterInterface</code>
+    </MissingTemplateParam>
+    <MixedArgument>
       <code>$row</code>
     </MixedArgument>
-    <MixedAssignment occurrences="1">
+    <MixedAssignment>
       <code>$row</code>
     </MixedAssignment>
   </file>
   <file src="src/DbSelectFactory.php">
-    <InvalidStringClass occurrences="1"/>
-    <LessSpecificReturnStatement occurrences="1"/>
-    <MissingDependency occurrences="1">
+    <MissingDependency>
       <code>Exception\ServiceNotCreatedException</code>
     </MissingDependency>
-    <MoreSpecificReturnType occurrences="1">
-      <code>DbSelect</code>
-    </MoreSpecificReturnType>
-  </file>
-  <file src="src/DbTableGateway.php">
-    <PossiblyInvalidArgument occurrences="1">
-      <code>$having</code>
-    </PossiblyInvalidArgument>
+    <UnsafeInstantiation>
+      <code>new $requestedName(
+            $options[0],
+            $options[1],
+            $options[2] ?? null,
+            $options[3] ?? null
+        )</code>
+    </UnsafeInstantiation>
+    <UnusedParam>
+      <code>$container</code>
+    </UnusedParam>
   </file>
   <file src="src/DbTableGatewayFactory.php">
-    <InvalidStringClass occurrences="1"/>
-    <LessSpecificReturnStatement occurrences="1"/>
-    <MissingDependency occurrences="1">
+    <MissingDependency>
       <code>Exception\ServiceNotCreatedException</code>
     </MissingDependency>
-    <MoreSpecificReturnType occurrences="1">
-      <code>DbTableGateway</code>
-    </MoreSpecificReturnType>
+    <UnsafeInstantiation>
+      <code>new $requestedName(
+            $options[0],
+            $options[1] ?? null,
+            $options[2] ?? null,
+            $options[3] ?? null,
+            $options[4] ?? null
+        )</code>
+    </UnsafeInstantiation>
+    <UnusedParam>
+      <code>$container</code>
+    </UnusedParam>
   </file>
   <file src="src/Exception/ServiceNotCreatedException.php">
-    <MissingDependency occurrences="1">
+    <MissingDependency>
       <code>ExceptionInterface</code>
     </MissingDependency>
+    <PossiblyUnusedMethod>
+      <code>forMissingDbSelectDependencies</code>
+      <code>forMissingDbTableGatewayDependencies</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Module.php">
+    <UnusedClass>
+      <code>Module</code>
+    </UnusedClass>
   </file>
   <file src="test/DbSelectTest.php">
-    <DeprecatedMethod occurrences="1">
+    <DeprecatedMethod>
       <code>setMethods</code>
     </DeprecatedMethod>
-    <InternalMethod occurrences="1">
+    <InternalMethod>
       <code>getArrayCopy</code>
     </InternalMethod>
-    <MixedMethodCall occurrences="13">
+    <MixedMethodCall>
       <code>method</code>
       <code>method</code>
       <code>method</code>
@@ -60,19 +83,19 @@
       <code>with</code>
       <code>with</code>
     </MixedMethodCall>
-    <PossiblyInvalidArgument occurrences="10">
-      <code>$this-&gt;mockSelect</code>
-      <code>$this-&gt;mockSelect</code>
-      <code>$this-&gt;mockSelect</code>
-      <code>$this-&gt;mockSelect</code>
-      <code>$this-&gt;mockSelectCount</code>
-      <code>$this-&gt;mockSelectCount</code>
-      <code>$this-&gt;mockSql</code>
-      <code>$this-&gt;mockSql</code>
-      <code>$this-&gt;mockSql</code>
-      <code>$this-&gt;mockSql</code>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$this->mockSelect]]></code>
+      <code><![CDATA[$this->mockSelect]]></code>
+      <code><![CDATA[$this->mockSelect]]></code>
+      <code><![CDATA[$this->mockSelect]]></code>
+      <code><![CDATA[$this->mockSelectCount]]></code>
+      <code><![CDATA[$this->mockSelectCount]]></code>
+      <code><![CDATA[$this->mockSql]]></code>
+      <code><![CDATA[$this->mockSql]]></code>
+      <code><![CDATA[$this->mockSql]]></code>
+      <code><![CDATA[$this->mockSql]]></code>
     </PossiblyInvalidArgument>
-    <PossiblyUndefinedMethod occurrences="7">
+    <PossiblyUndefinedMethod>
       <code>expects</code>
       <code>expects</code>
       <code>expects</code>
@@ -83,7 +106,7 @@
     </PossiblyUndefinedMethod>
   </file>
   <file src="test/DbTableGatewayTest.php">
-    <MixedMethodCall occurrences="14">
+    <MixedMethodCall>
       <code>method</code>
       <code>method</code>
       <code>method</code>
@@ -99,14 +122,14 @@
       <code>with</code>
       <code>with</code>
     </MixedMethodCall>
-    <PossiblyInvalidArgument occurrences="5">
-      <code>$this-&gt;mockTableGateway</code>
-      <code>$this-&gt;mockTableGateway</code>
-      <code>$this-&gt;mockTableGateway</code>
-      <code>$this-&gt;mockTableGateway</code>
-      <code>$this-&gt;mockTableGateway</code>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$this->mockTableGateway]]></code>
+      <code><![CDATA[$this->mockTableGateway]]></code>
+      <code><![CDATA[$this->mockTableGateway]]></code>
+      <code><![CDATA[$this->mockTableGateway]]></code>
+      <code><![CDATA[$this->mockTableGateway]]></code>
     </PossiblyInvalidArgument>
-    <PossiblyUndefinedMethod occurrences="7">
+    <PossiblyUndefinedMethod>
       <code>expects</code>
       <code>expects</code>
       <code>expects</code>

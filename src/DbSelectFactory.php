@@ -6,7 +6,9 @@ namespace Laminas\Paginator\Adapter\LaminasDb;
 
 use Psr\Container\ContainerInterface;
 
+use function assert;
 use function count;
+use function is_a;
 
 final class DbSelectFactory
 {
@@ -16,6 +18,7 @@ final class DbSelectFactory
             throw Exception\ServiceNotCreatedException::forMissingDbSelectDependencies();
         }
 
+        assert(is_a($requestedName, DbSelect::class, true));
         return new $requestedName(
             $options[0],
             $options[1],
