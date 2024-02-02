@@ -28,16 +28,16 @@ class DbTableGateway extends DbSelect
     ) {
         $sql    = $tableGateway->getSql();
         $select = $sql->select();
-        if ($where) {
+        if ($where !== null) {
             $select->where($where);
         }
-        if ($order) {
+        if ($order !== null) {
             $select->order($order);
         }
-        if ($group) {
+        if ($group !== null) {
             $select->group($group);
         }
-        if ($having) {
+        if ($having !== null) {
             $select->having($having);
         }
 
